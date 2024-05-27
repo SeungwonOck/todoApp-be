@@ -1,5 +1,5 @@
 const User = require('../model/User')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 const userController = {}
@@ -37,7 +37,7 @@ userController.loginUser = async (req, res) => {
         }
         throw new Error("Invalid email or password");
     } catch (err) {
-        res.status(400).json({ status: 'fail', err: err });
+        res.status(400).json({ status: 'fail', message: err.message });
     }
 }
 
