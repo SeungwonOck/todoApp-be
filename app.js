@@ -5,15 +5,15 @@ const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index')
 require('dotenv').config();
 const app = express();
-const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
+// const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 
 app.use(cors());
 app.use(bodyParser.json());// req.body를 객체로 인식해줌
 app.use('/api', indexRouter)
 
-const mongoURI = MONGODB_URI_PROD;
+// const mongoURI = MONGODB_URI_PROD;
 
-mongoose.connect(mongoURI, { useNewUrlParser: true})
+mongoose.connect("mongodb://localhost:27017/todo-demo", { useNewUrlParser: true})
     .then(() => {
     console.log('Connected to mongoDB');
     })

@@ -13,7 +13,6 @@ userController.createUser = async (req, res) => {
         } else {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hash = bcrypt.hashSync(password, salt);
-            console.log("hash", hash)
             const newUser = new User({ name, email, password: hash })
             await newUser.save();
             res.status(200).json({ status: 'success'});
@@ -36,6 +35,19 @@ userController.loginUser = async (req, res) => {
             }
         }
         throw new Error("Invalid email or password");
+    } catch (err) {
+        res.status(400).json({ status: 'fail', message: err.message });
+    }
+}
+
+userController.getUser = async (req, res) => {
+    try {
+        const {userId} = req // req.userId
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        res.status(200).json({ status:'success', user });
     } catch (err) {
         res.status(400).json({ status: 'fail', message: err.message });
     }
